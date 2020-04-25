@@ -41,6 +41,8 @@ Make subdomain.sh universal
 ```
 cp <PATH TO FILE>/subdomain.sh /usr/bin/subdomain
 subdomain domain
+
+[Mostly work in Linux Systems]
 ```
 
 
