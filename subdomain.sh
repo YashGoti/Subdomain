@@ -23,6 +23,6 @@ else
 	curl -s --header "Host:dnsdumpster.com" --referer https://dnsdumpster.com --user-agent "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0" --data "csrfmiddlewaretoken=$csrftoken&targetip=$1" --cookie "csrftoken=$csrftoken; _ga=GA1.2.1737013576.1458811829; _gat=1" https://dnsdumpster.com > dnsdumpster.html
 	cat dnsdumpster.html | grep "https://api.hackertarget.com/httpheaders" | grep -o "\w.*$1" | cut -d "/" -f7 | grep '.' | sort -u >> /root/tmp.txt &
 	rm -rf dnsdumpster.html
-  cat /root/tmp.txt | sort -u | tee /root/Recon/$1/Subdomain/$1.txt
+  cat /root/tmp.txt | sort -u | tee
   rm -rf /root/tmp.txt &
  fi
