@@ -28,4 +28,5 @@ else
 	rm -rf dnsdumpster.html
   cat /root/Recon/$1/Subdomain/tmp.txt | sort -u | tee /root/Recon/$1/Subdomain/$1.txt
   rm -rf /root/Recon/$1/Subdomain/tmp.txt
+  echo "[+] Subdomain Store in /root/Recon/$1/Subdomain/$1.txt"
  fi
