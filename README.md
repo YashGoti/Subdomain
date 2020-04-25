@@ -1,4 +1,7 @@
-Hacks For Subdomain Enumeration
+Subdomain Enumeration
+---
+Some Hacks For Subdomain Enumeration
+That's it.
 
 Sources
 ---
