@@ -14,7 +14,7 @@ else
 	curl -s "https://tls.bufferover.run/dns?q=.$1" | jq -r .Results 2>/dev/null | cut -d ',' -f3 | grep -o "\w.*$1"| sort -u >> /root/tmp.txt &
   curl -s "https://api.hackertarget.com/hostsearch/?q=$1" | cut -d ',' -f1 | sort -u >> /root/tmp.txt &
   curl -s "https://rapiddns.io/subdomain/$1" | grep -oaEi "https?://[^\"\\'> ]+" | grep $1 | sed 's/https\?:\/\///' | sort -u >> /root/tmp.txt &
-  curl -s "https://riddler.io/search/exportcsv?q=pld:$1" | grep -o "\w.*hackerone.com" | cut -d ',' -f6 | sort -u >> /root/tmp.txt &
+  curl -s "https://riddler.io/search/exportcsv?q=pld:$1" | grep -o "\w.*$1" | cut -d ',' -f6 | sort -u >> /root/tmp.txt &
   curl -s "https://www.threatcrowd.org/searchApi/v2/domain/report/?domain=$1" | jq '.subdomains' | cut -d '"' -f2 | cut -d '[' -f1 | cut -d ']' -f1 | grep . | sort -u >> /root/tmp.txt &
   curl -s "https://api.threatminer.org/v2/domain.php?q=$1&rt=5" | jq -r '.results[]' | sort -u >> /root/tmp.txt &
   curl -s "https://urlscan.io/api/v1/search/?q=domain:$1" | jq -r '.results[].page.domain' | sort -u >> /root/tmp.txt &
@@ -23,6 +23,6 @@ else
 	curl -s --header "Host:dnsdumpster.com" --referer https://dnsdumpster.com --user-agent "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0" --data "csrfmiddlewaretoken=$csrftoken&targetip=$1" --cookie "csrftoken=$csrftoken; _ga=GA1.2.1737013576.1458811829; _gat=1" https://dnsdumpster.com > dnsdumpster.html
 	cat dnsdumpster.html | grep "https://api.hackertarget.com/httpheaders" | grep -o "\w.*$1" | cut -d "/" -f7 | grep '.' | sort -u >> /root/tmp.txt &
 	rm -rf dnsdumpster.html
-  cat /root/tmp.txt | sort -u | wget $1 | tee
+  cat /root/tmp.txt | sort -u | wget $1 | grep '.' | tee
   rm -rf /root/tmp.txt &
  fi
