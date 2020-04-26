@@ -33,7 +33,7 @@ chmod +x subdomain.sh
 Usage
 ---
 ```
-./subdomain.sh domain
+sudo ./subdomain.sh domain
 ```
  
 Make subdomain.sh universal
