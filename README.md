@@ -34,6 +34,8 @@ Usage
 ---
 ```
 ./subdomain.sh domain
+or
+sudo ./subdomain.sh domain
 ```
  
 Make subdomain.sh universal
