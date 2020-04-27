@@ -25,4 +25,4 @@ else
   cat /root/tmp.txt | sort -u | grep $1 | tee
   rm -rf /root/dnsdumpster.html
   rm -rf /root/tmp.txt
- fi
+fi
