@@ -33,6 +33,8 @@ chmod +x subdomain.sh
 Usage
 ---
 ```
+./subdomain.sh domain
+or
 sudo ./subdomain.sh domain
 ```
  
