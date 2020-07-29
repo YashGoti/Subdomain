@@ -1,9 +1,26 @@
 #!/bin/bash
 
-if [ -z $1 ];then
-    echo "[Usage]:"
-    echo "./subdomain.sh domain"
-else
+banner(){
+    echo -e "\t                                                           βeta v1.0\t"
+    echo -e "\t               __        __                      _              __  \t"
+    echo -e "\t   _______  __/ /_  ____/ /___  ____ ___  ____ _(_)___    _____/ /_ \t"
+    echo -e "\t  / ___/ / / / __ \/ __  / __ \/ __ `__ \/ __ `/ / __ \  / ___/ __ \\t"
+    echo -e "\t (__  ) /_/ / /_/ / /_/ / /_/ / / / / / / /_/ / / / / / (__  ) / / /\t"
+    echo -e "\t/____/\__,_/_.___/\__,_/\____/_/ /_/ /_/\__,_/_/_/ /_(_)____/_/ /_/ \t"
+    echo -e "\t                                                                    \t"
+    echo -e "\t                        By @_YashGoti_                              \t"
+    
+}
+
+help(){
+    echo -e "[Options]:"
+    echo -e "\t-s\tsilent banner"
+    echo -e "[Usage]:"
+    echo -e "$ ~/subdomain.sh DOMAIN"
+    echo -e "$ ~/subdomain.sh DOMAIN -s"
+}
+
+getSubdomains(){
     curl -s "https://otx.alienvault.com/api/v1/indicators/domain/$1/passive_dns" | jq -r ".passive_dns[].hostname" | sort -u > tmp.txt &
     curl -s "https://jldc.me/anubis/subdomains/$1" | jq -r '.' | cut -d '"' -f2 | cut -d '[' -f1 | cut -d ']' -f1 | grep . | sort -u >> tmp.txt &
     curl -s "http://web.archive.org/cdx/search/cdx?url=*.$1/*&output=text&fl=original&collapse=urlkey" | sort | sed -e 's_https*://__' -e "s/\/.*//" -e 's/:.*//' -e 's/^www\.//' | sort -u >> tmp.txt &
@@ -27,4 +44,15 @@ else
     cat tmp.txt | sort -u | grep $1 | tee
     rm -rf dnsdumpster.html
     rm -rf tmp.txt
+}
+
+if [ -z $1 ];then
+    help
+else
+    if [[ -z $2 ]]; then
+        banner
+        getSubdomains $1
+    elif [[ $2 == "-s" ]]; then
+        getSubdomains $1
+    fi
 fi
