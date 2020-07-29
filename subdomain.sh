@@ -4,7 +4,7 @@ banner(){
     echo -e "\t                                                           βeta v1.0\t"
     echo -e "\t               __        __                      _              __  \t"
     echo -e "\t   _______  __/ /_  ____/ /___  ____ ___  ____ _(_)___    _____/ /_ \t"
-    echo -e "\t  / ___/ / / / __ \/ __  / __ \/ __ `__ \/ __ `/ / __ \  / ___/ __ \\t"
+    echo -e "\t  / ___/ / / / __ \/ __  / __ \/ __ \__ \/ __ \/ / __ \  / ___/ __ /\ \t"
     echo -e "\t (__  ) /_/ / /_/ / /_/ / /_/ / / / / / / /_/ / / / / / (__  ) / / /\t"
     echo -e "\t/____/\__,_/_.___/\__,_/\____/_/ /_/ /_/\__,_/_/_/ /_(_)____/_/ /_/ \t"
     echo -e "\t                                                                    \t"
@@ -16,8 +16,8 @@ help(){
     echo -e "[Options]:"
     echo -e "\t-s\tsilent banner"
     echo -e "[Usage]:"
-    echo -e "$ ~/subdomain.sh DOMAIN"
-    echo -e "$ ~/subdomain.sh DOMAIN -s"
+    echo -e "\t$ ~/subdomain.sh DOMAIN"
+    echo -e "\t$ ~/subdomain.sh DOMAIN -s"
 }
 
 getSubdomains(){
