@@ -1,30 +1,15 @@
 #!/bin/bash
 
-banner(){
-    echo -e "\t                                                           βeta v1.0\t"
-    echo -e "\t               __        __                      _              __  \t"
-    echo -e "\t   _______  __/ /_  ____/ /___  ____ ___  ____ _(_)___    _____/ /_ \t"
-    echo -e "\t  / ___/ / / / __ \/ __  / __ \/ __ \__ \/ __ \/ / __ \  / ___/ __ \ \t"
-    echo -e "\t (__  ) /_/ / /_/ / /_/ / /_/ / / / / / / /_/ / / / / / (__  ) / / /\t"
-    echo -e "\t/____/\__,_/_.___/\__,_/\____/_/ /_/ /_/\__,_/_/_/ /_(_)____/_/ /_/ \t"
-    echo -e "\t                                                                    \t"
-    echo -e "\t                        By @_YashGoti_                              \t"
-    
-}
-
 help(){
-    echo -e "[Options]:"
-    echo -e "\t-s\tsilent banner"
     echo -e "[Usage]:"
     echo -e "\t$ ~/subdomain.sh DOMAIN"
-    echo -e "\t$ ~/subdomain.sh DOMAIN -s"
 }
 
 getSubdomains(){
     curl -s "https://otx.alienvault.com/api/v1/indicators/domain/$1/passive_dns" | jq -r ".passive_dns[].hostname" | sort -u > tmp.txt &
     curl -s "https://jldc.me/anubis/subdomains/$1" | jq -r '.' | cut -d '"' -f2 | cut -d '[' -f1 | cut -d ']' -f1 | grep . | sort -u >> tmp.txt &
     curl -s "http://web.archive.org/cdx/search/cdx?url=*.$1/*&output=text&fl=original&collapse=urlkey" | sort | sed -e 's_https*://__' -e "s/\/.*//" -e 's/:.*//' -e 's/^www\.//' | sort -u >> tmp.txt &
-    curl -s "https://certspotter.com/api/v0/certs?domain=$1" | jq '.[].dns_names[]' | sed 's/\"//g' | sed 's/\*\.//g' | grep -w $1\$ | sort -u >> tmp.txt &
+#    curl -s "https://certspotter.com/api/v0/certs?domain=$1" | jq '.[].dns_names[]' | sed 's/\"//g' | sed 's/\*\.//g' | grep -w $1\$ | sort -u >> tmp.txt &
     curl -s "https://crt.sh/?q=%.$1&output=json" | jq -r '.[].name_value' | sed 's/\*\.//g' | sort -u >> tmp.txt &
     curl -s "https://dns.bufferover.run/dns?q=.$1" | jq -r .FDNS_A[] 2>/dev/null | cut -d ',' -f2 | grep -o "\w.*$1" | sort -u >> tmp.txt &
     curl -s "https://dns.bufferover.run/dns?q=.$1" | jq -r .RDNS[] 2>/dev/null | cut -d ',' -f2 | grep -o "\w.*$1" | sort -u >> tmp.txt &
@@ -46,13 +31,4 @@ getSubdomains(){
     rm -rf tmp.txt
 }
 
-if [ -z $1 ];then
-    help
-else
-    if [[ -z $2 ]]; then
-        banner
-        getSubdomains $1
-    elif [[ $2 == "-s" ]]; then
-        getSubdomains $1
-    fi
-fi
+if [[ -z $1 ]]; then help; else getSubdomains $1; fi
