@@ -26,7 +26,7 @@ getSubdomains(){
     if [[ -e $1 && -s $1 ]]; then # file exists and is not zero size
         cat dnsdumpster.html | grep "https://api.hackertarget.com/httpheaders" | grep -o "\w.*$1" | cut -d "/" -f7 | grep '.' | sort -u >> tmp.txt
     fi
-    cat tmp.txt | grep -iv "*" | sort -u | grep $1 | tee
+    cat tmp.txt | grep -iv "*" | sort -u | grep $1
     rm -rf dnsdumpster.html
     rm -rf tmp.txt
 }
